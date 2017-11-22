@@ -1,0 +1,45 @@
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Bot Application.dll.config
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Bot Application.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Bot Application.pdb
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Autofac.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Chronic.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Builder.Autofac.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Builder.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Connector.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.IdentityModel.Protocol.Extensions.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Rest.ClientRuntime.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.WindowsAzure.Configuration.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Newtonsoft.Json.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Net.Http.Formatting.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Http.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Http.WebHost.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Autofac.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Builder.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Builder.Autofac.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Connector.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.IdentityModel.Protocol.Extensions.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.WindowsAzure.Configuration.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Newtonsoft.Json.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Net.Http.Formatting.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Http.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Http.WebHost.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\ar\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\cs\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\de-dE\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\en\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\es\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\fa\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\fr\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\it\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\ja\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\nl\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\pt-BR\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\ru\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\MSA_ContosoBank.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\Bot Application.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\Bot Application.pdb
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Azure.Mobile.Client.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Azure.Mobile.Client.xml
