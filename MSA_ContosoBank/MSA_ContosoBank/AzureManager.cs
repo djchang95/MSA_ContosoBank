@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.WindowsAzure.MobileServices;
 using MSA_ContosoBank.DataModel;
+using System.Threading.Tasks;
 
 namespace MSA_ContosoBank
 {
@@ -15,7 +16,7 @@ namespace MSA_ContosoBank
 
         private AzureManager()
         {
-            this.client = new MobileServiceClient("http://contosobankbotservice1.azurewebsites.net");
+            this.client = new MobileServiceClient("http://contosobankbotservicedata.azurewebsites.net");
             this.userTable = this.client.GetTable<User>();
         }
 
@@ -34,6 +35,16 @@ namespace MSA_ContosoBank
                 }
                 return instance;
             }
+        }
+
+        public async Task<List<User>> GetUserInformation()
+        {
+            return await this.userTable.ToListAsync();
+        }
+        
+        public async Task CreateUser(User user)
+        {
+            await this.userTable.InsertAsync(user);
         }
     }
 }

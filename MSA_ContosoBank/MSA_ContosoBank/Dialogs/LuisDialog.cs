@@ -5,6 +5,7 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using MSA_ContosoBank.DataModel;
+using System.Collections.Generic;
 
 namespace MSA_ContosoBank.Dialogs
 {
@@ -17,24 +18,42 @@ namespace MSA_ContosoBank.Dialogs
         [LuisIntent("Greeting")]
         public async Task Greeting(IDialogContext context, LuisResult result)
         {
-            PromptDialog.Text(context, this.Prompt, "Hello, Welcome to Contoso Bank, before you begin our service please enter your ID");
+            PromptDialog.Text(context, this.initial, "Hello, Welcome to Contoso Bank, before you begin our service please enter your ID");
         }
-
-        private async Task Prompt(IDialogContext context, IAwaitable<string> result)
+        //Assign new customer to our database
+        private async Task initial(IDialogContext context, IAwaitable<string> result)
         {
             try
             {
-                var userID = await result;
-                await context.PostAsync("Welcome {username}");
+                var userName = await result;
+                List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+                if (users.Count == 0)
+                {
+                    foreach (User u in users)
+                    {
+                        if (!(u.userName.Equals(userName, StringComparison.InvariantCultureIgnoreCase)))
+                        {
+                            this.userinfo = new User();
+                            this.userinfo.userName = userName;
+                            this.userinfo.balance = 0.0;
+                            //await AzureManager.AzureManagerInstance.CreateUser(userinfo);
 
-                await context.PostAsync("There are several options \n 1.Deposit \n 2.Withdraw \n 3.Get Balacne \n 4.Find out the exchange rate \n 5.Find out the stock price \n 7.Help ");
+                            await context.PostAsync($"welcome {userName}");
+                        }
+                    }
+                }
+                else
+                {
+                    await context.PostAsync($"Welcome back {userName}");
 
+                    await context.PostAsync($"There are several options 1.Deposit 2.Withdraw \n 3.Get Balacne \n 4.Find out the exchange rate \n 5.Find out the stock price \n 7.Help ");
+                }
             }
             catch
             {
                 throw new NotImplementedException();
             }
-            
+
         }
 
 
