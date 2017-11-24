@@ -6,6 +6,9 @@ using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using MSA_ContosoBank.DataModel;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace MSA_ContosoBank.Dialogs
 {
@@ -25,38 +28,131 @@ namespace MSA_ContosoBank.Dialogs
         {
             try
             {
-                var userName = await result;
+                string userName = await result;
                 List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
-                if (users.Count == 0)
+
+                this.userinfo = new User();
+                this.userinfo.userName = userName;
+                this.userinfo.balance = 0.0;
+
+                //if user available
+                if (users.Count != 0)
                 {
                     foreach (User u in users)
                     {
-                        if (!(u.userName.Equals(userName, StringComparison.InvariantCultureIgnoreCase)))
+                        //if there is matching username
+                        if (u.userName.Equals(userName, StringComparison.InvariantCultureIgnoreCase))
                         {
-                            this.userinfo = new User();
-                            this.userinfo.userName = userName;
-                            this.userinfo.balance = 0.0;
-                            //await AzureManager.AzureManagerInstance.CreateUser(userinfo);
+                            this.userinfo = u;
 
-                            await context.PostAsync($"welcome {userName}");
+                            await context.PostAsync($"Welcome back {userName}");
+                            //context.UserData.SetValue("username", userinfo);
+                        }
+                        //if there is no matching username
+                        else
+                        {
+                            await AzureManager.AzureManagerInstance.CreateUser(userinfo);
+
+                            this.userinfo = u;
+                            await context.PostAsync($"Welcome {userName}, I have created a new account for you");
                         }
                     }
                 }
+
+                //if no user available
                 else
                 {
-                    await context.PostAsync($"Welcome back {userName}");
+                    await AzureManager.AzureManagerInstance.CreateUser(userinfo);
 
-                    await context.PostAsync($"There are several options 1.Deposit 2.Withdraw \n 3.Get Balacne \n 4.Find out the exchange rate \n 5.Find out the stock price \n 7.Help ");
+                    await context.PostAsync($"Welcome {userName}, I have created a new account for you");
+
+                    //context.UserData.SetValue("username", userinfo.userName);
                 }
             }
             catch
             {
-                throw new NotImplementedException();
+                await context.PostAsync("Something wrong with the bot");
             }
+
+            await context.PostAsync($"There are several options 1.Deposit 2.Withdraw \n 3.Get Balacne \n 4.Find out the exchange rate \n 5.Find out the stock price \n 7.Help ");
+
+            context.Wait(this.MessageReceived);
+        }
+
+        [LuisIntent("GetBalance")]
+        public async Task getBalance(IDialogContext context, LuisResult result)
+        {
+            //List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+            //context.UserData.TryGetValue("username", out userName);
+            try
+            {
+                await context.PostAsync($"{this.userinfo.balance}");
+            }
+            catch
+            {
+                await context.PostAsync("Something wrong with getBalance");
+            }
+            context.Wait(MessageReceived);
 
         }
 
+        [LuisIntent("exchange")]
+        public async Task exchange(IDialogContext context, LuisResult result)
+        {
+            var currency = result.Entities.First().Entity.ToUpper();
 
+            currencyRate.Rootobject exchangeObject;
+            HttpClient client = new HttpClient();
+            string api = await client.GetStringAsync(new Uri("https://api.fixer.io/latest?base=NZD"));
+            exchangeObject = JsonConvert.DeserializeObject<currencyRate.Rootobject>(api);
+
+            switch (currency)
+            {
+                case "AUD":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of AUD is {exchangeObject.rates.AUD}");
+                    break;
+                case "BGN":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of BGN is {exchangeObject.rates.BGN}");
+                    break;
+                case "CNY":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of CNY is {exchangeObject.rates.CNY}");
+                    break;
+                case "BRL":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of BRL is {exchangeObject.rates.BRL}");
+                    break;
+                case "HKD":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of HKD is {exchangeObject.rates.HKD}");
+                    break;
+                case "IDR":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of IDR is {exchangeObject.rates.IDR}");
+                    break;
+                case "ILS":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of ILS is {exchangeObject.rates.ILS}");
+                    break;
+                case "INR":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of INR is {exchangeObject.rates.INR}");
+                    break;
+                case "JPY":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of JPY is {exchangeObject.rates.JPY}");
+                    break;
+                case "KRW":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of KRW is {exchangeObject.rates.KRW}");
+                    break;
+                case "MXN":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of MXN is {exchangeObject.rates.MXN}");
+                    break;
+                case "USD":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of USD is {exchangeObject.rates.USD}");
+                    break;
+                case "EUR":
+                    await context.PostAsync($"NZD to {currency} Exchange rate of EUR is {exchangeObject.rates.EUR}");
+                    break;
+                default:
+                    await context.PostAsync($"No currency matching. Please specify the national rate code eg. 'exchange rate of AUD'");
+                    break;
+            }
+            context.Wait(this.MessageReceived);
+        }
 
         [LuisIntent("")]
         public async Task None(IDialogContext context, LuisResult result)

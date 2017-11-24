@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Contoso Bank</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width = device-width, initial-scale =1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        .container{
+            padding: 80px 120px;
+        }
+        footer {
+            background-color: #2d2d30;
+            color: #f5f5f5;
+            padding: 32px;
+        }
+
+        footer a {
+            color: #f5f5f5;
+        }
+
+        #chat {
+            position: fixed;
+            right: 25px;
+            bottom: 0px;
+            width: 300px;
+            height: 400px;
+        }
+        #chat-button {
+            width: 200px;
+            height: 37px;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            background-color: orange;
+            font-size:medium;
+        }
+
+        #chat-frame {
+            height: 400px;
+            width: 300px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+        }
+        .hide {
+            display: none;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        function openChat() {
+            var frame = document.getElementById("chat-frame");
+            frame.className = "";
+            var img = document.getElementById("chat-button");
+            img.className = "hide";
+        }
+        function closeChat() {
+            var frame = document.getElementById("chat-frame");
+            frame.className = "hide";
+            var img = document.getElementById("chat-button");
+            img.className = "";
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="Logo.jpg" height="40" width="150"/></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#home">HOME</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
+                    <li><a href="#contact">LOG IN</a></li>
+                
+                    <li><a href="#"><span class="glyphicon glyphicon-search"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="frontpagebank.jpg" alt="Bank Image">
+                <div class="carousel-caption">
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="frontpagebank2.jpg" alt="Bank Image" width="540">
+                <div class="carousel-caption">
+                </div>
+            </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="container text-center">
+        <h3>Contoso Bank</h3>
+        <p><em>Welcome to Contoso Bank</em></p>
+        <br />
+        <div class= "row">
+            <div class="col-sm-4">
+                <img src="Bank.jpg" alt="Bank img" height="80%" width="90%"/>
+            </div>
+            <div class="col-sm-4">
+                <img src="Bank.jpg" alt="Bank img" height="80%" width="90%" />
+            </div>
+            <div class="col-sm-4">
+                <img src="Bank.jpg" alt="Bank img" height="80%" width="90%" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+      <h3 class="text-center">Contact</h3>
+      <div class="row test">
+        <div class="col-md-4">
+          <p><span class="glyphicon glyphicon-map-marker"></span>Auckland, New Zealand</p>
+          <p><span class="glyphicon glyphicon-phone"></span>Phone: +00 0000 0000</p>
+          <p><span class="glyphicon glyphicon-envelope"></span>Email: email@mail.com</p> 
+        </div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-sm-6 form-group">
+              <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+            </div>
+            <div class="col-sm-6 form-group">
+              <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+            </div>
+          </div>
+          <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea>
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <button class="btn pull-right" type="submit">Send</button>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+
+    
+
+    <footer class="text-center">
+      <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
+        <span class="glyphicon glyphicon-chevron-up"></span>
+      </a><br><br>
+      <p>Created By Dongjin Chang</a></p> 
+    </footer>
+
+    <div id="chat">
+        <button id="chat-button" class="btn btn-primary" onclick="openChat()">Live Chat</button>
+        <div id="chat-frame" class="hide">
+            <iframe src='https://webchat.botframework.com/embed/MSAContosoBankBotService?s=tf3m1JJgghs.cwA.t8M.S2aAhOqHNfPOdP5CdLyLJBvjbZDjDzoDLFLH2a219XQ'></iframe>
+
+        </div>
+    </div>
+
+</body>
+</html>

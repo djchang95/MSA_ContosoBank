@@ -106,8 +106,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="default.htm" />
+    <Content Include="Bank.jpg" />
+    <Content Include="ContosoWeb.htm" />
+    <Content Include="frontpagebank.jpg" />
+    <Content Include="frontpagebank2.jpg" />
     <Content Include="Global.asax" />
+    <Content Include="Logo.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -116,6 +120,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AzureManager.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="DataModel\currencyRate.cs" />
     <Compile Include="DataModel\User.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Global.asax.cs">

@@ -13,13 +13,13 @@ namespace MSA_ContosoBank.DataModel
         public string id { get; set; }
 
         [JsonProperty(PropertyName = "createdAt")]
-        public DateTime createdAt { get; set; }
+        public string createdAt { get; set; }
 
         [JsonProperty(PropertyName = "updatedAt")]
-        public DateTime updatedAt { get; set; }
+        public string updatedAt { get; set; }
 
         [JsonProperty(PropertyName = "version")]
-        public Version version { get; set; }
+        public string version { get; set; }
 
         [JsonProperty(PropertyName = "deleted")]
         public bool deleted { get; set; }
