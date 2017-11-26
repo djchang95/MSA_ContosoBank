@@ -107,7 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Bank.jpg" />
-    <Content Include="ContosoWeb.htm" />
+    <Content Include="default.htm" />
     <Content Include="frontpagebank.jpg" />
     <Content Include="frontpagebank2.jpg" />
     <Content Include="Global.asax" />
