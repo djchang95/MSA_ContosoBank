@@ -43,3 +43,23 @@ C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\ob
 C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\Bot Application.pdb
 C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Azure.Mobile.Client.dll
 C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Azure.Mobile.Client.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Antlr3.Runtime.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Builder.Calling.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Helpers.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Mvc.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Optimization.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Razor.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.WebPages.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.WebPages.Razor.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\WebGrease.dll
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Antlr3.Runtime.pdb
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Bot.Builder.Calling.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Helpers.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Mvc.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Optimization.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.Razor.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.WebPages.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\System.Web.WebPages.Razor.xml
