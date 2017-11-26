@@ -35,6 +35,7 @@ namespace MSA_ContosoBank
         private async Task onRecordCompleted(RecordOutcomeEvent recordOutcomeEvent)
         {
             List<ActionBase> actions = new List<ActionBase>();
+
             var spokenText = string.Empty;
             if (recordOutcomeEvent.RecordOutcome.Outcome == Outcome.Success)
             {
