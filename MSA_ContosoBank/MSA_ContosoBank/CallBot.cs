@@ -13,6 +13,7 @@ namespace MSA_ContosoBank
 {
     public class CallBot : IDisposable, ICallingBot
     {
+        public ICallingBotService CallingBotService { get; }
 
         private readonly MicrosoftCognitiveSpeechService speechService = new MicrosoftCognitiveSpeechService();
 
@@ -68,7 +69,7 @@ namespace MSA_ContosoBank
             {
                 OperationId = Guid.NewGuid().ToString(),
                 PlayPrompt = new PlayPrompt { OperationId = Guid.NewGuid().ToString(), Prompts = new List<Prompt> { new Prompt { Value = "Please leave a message" } } },
-                RecordingFormat = Microsoft.Bot.Builder.Calling.ObjectModel.Misc.RecordingFormat.Wav
+                RecordingFormat = RecordingFormat.Wav
             };
 
             incomingCallEvent.ResultingWorkflow.Actions = new List<ActionBase>
@@ -79,8 +80,6 @@ namespace MSA_ContosoBank
 
             return Task.FromResult(true);
         }
-
-        public ICallingBotService CallingBotService { get; }
 
         public void Dispose()
         {

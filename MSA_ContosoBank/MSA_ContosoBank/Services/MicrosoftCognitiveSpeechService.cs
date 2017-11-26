@@ -13,18 +13,6 @@ namespace MSA_ContosoBank.Services
 {
     public class MicrosoftCognitiveSpeechService
     {
-        private readonly string subscriptionKey;
-        private readonly string speechRecognitionUri;
-
-        public MicrosoftCognitiveSpeechService()
-        {
-            this.DefaultLocale = "en-US";
-            this.subscriptionKey = WebConfigurationManager.AppSettings["MicrosoftSpeechApiKey"];
-            this.speechRecognitionUri = Uri.UnescapeDataString(WebConfigurationManager.AppSettings["MicrosoftSpeechRecognitionUri"]);
-        }
-
-        public string DefaultLocale { get; set; }
-
         /// <summary>
         /// Gets text from an audio stream.
         /// </summary>
@@ -32,36 +20,33 @@ namespace MSA_ContosoBank.Services
         /// <returns>Transcribed text. </returns>
         public async Task<string> GetTextFromAudioAsync(Stream audiostream)
         {
-            var requestUri = this.speechRecognitionUri + Guid.NewGuid();
+            var requestUri = @"https://speech.platform.bing.com/recognize?scenarios=smd&appid=D4D52672-91D7-4C74-8AD8-42B1D98141A5&locale=en-US&device.os=bot&form=BCSSTT&version=3.0&format=json&instanceid=565D69FF-E928-4B7E-87DA-9A750B96D9E3&requestid=" + Guid.NewGuid();
 
             using (var client = new HttpClient())
             {
                 var token = Authentication.Instance.GetAccessToken();
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
-                try
+                using (var binaryContent = new ByteArrayContent(StreamToBytes(audiostream)))
                 {
-                    using (var binaryContent = new ByteArrayContent(StreamToBytes(audiostream)))
-                    {
-                        // binaryContent.Headers.TryAddWithoutValidation("content-type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
-                        var response = await client.PostAsync(requestUri, binaryContent);
-                        var responseString = await response.Content.ReadAsStringAsync();
-                        dynamic data = JsonConvert.DeserializeObject(responseString);
+                    binaryContent.Headers.TryAddWithoutValidation("content-type", "audio/wav; codec=\"audio/pcm\"; samplerate=16000");
 
-                        if (data != null)
-                        {
-                            return data.header.name;
-                        }
-                        else
-                        {
-                            return string.Empty;
-                        }
+                    var response = await client.PostAsync(requestUri, binaryContent);
+                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        throw new HttpException((int)response.StatusCode, $"({response.StatusCode}) {response.ReasonPhrase}");
                     }
-                }
-                catch (Exception exp)
-                {
-                    Debug.WriteLine(exp);
-                    return string.Empty;
+
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    try
+                    {
+                        dynamic data = JsonConvert.DeserializeObject(responseString);
+                        return data.header.name;
+                    }
+                    catch (JsonReaderException ex)
+                    {
+                        throw new Exception(responseString, ex);
+                    }
                 }
             }
         }
