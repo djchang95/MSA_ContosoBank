@@ -46,5 +46,15 @@ namespace MSA_ContosoBank
         {
             await this.userTable.InsertAsync(user);
         }
+
+        public async Task UpdateUser(User user)
+        {
+            await this.userTable.UpdateAsync(user);
+        }
+
+        public async Task DeleteUser(User user)
+        {
+            await this.userTable.DeleteAsync(user);
+        }
     }
 }
