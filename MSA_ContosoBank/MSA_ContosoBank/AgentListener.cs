@@ -10,6 +10,7 @@ namespace MSA_ContosoBank
 {
     public class AgentListener
     {
+        // This will send an adhoc message to the user
         public static async Task Resume(
             string toId,
             string toName,
