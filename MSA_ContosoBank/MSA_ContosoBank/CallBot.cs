@@ -53,9 +53,9 @@ namespace MSA_ContosoBank
             if (this.CallingBotService != null)
             {
                 this.CallingBotService.OnIncomingCallReceived -= this.OnIncomingCallReceived;
-                this.CallingBotService.OnPlayPromptCompleted -= this.OnPlayPromptCompleted;
+                //this.CallingBotService.OnPlayPromptCompleted -= this.OnPlayPromptCompleted;
                 this.CallingBotService.OnRecordCompleted -= this.OnRecordCompleted;
-                this.CallingBotService.OnRecognizeCompleted -= this.OnRecognizeCompleted;
+                //this.CallingBotService.OnRecognizeCompleted -= this.OnRecognizeCompleted;
                 this.CallingBotService.OnHangupCompleted -= OnHangupCompleted;
             }
         }
@@ -66,82 +66,82 @@ namespace MSA_ContosoBank
             return Task.FromResult(true);
         }
 
-        private static void SetupInitialMenu(Workflow workflow)
-        {
-            workflow.Actions = new List<ActionBase> { GetInitialMenu() };
-        }
+        //private static void SetupInitialMenu(Workflow workflow)
+        //{
+        //    workflow.Actions = new List<ActionBase> { GetInitialMenu() };
+        //}
 
-        private static void SetupInitialMenuWithErrorMessage(Workflow workflow)
-        {
-            workflow.Actions = new List<ActionBase>
-            {
-                GetPromptForText(OptionMenuNotSupportedMessage),
-                GetInitialMenu()
-            };
-        }
+        //private static void SetupInitialMenuWithErrorMessage(Workflow workflow)
+        //{
+        //    workflow.Actions = new List<ActionBase>
+        //    {
+        //        GetPromptForText(OptionMenuNotSupportedMessage),
+        //        GetInitialMenu()
+        //    };
+        //}
 
-        private static ActionBase GetInitialMenu()
-        {
-            return CreateIvrOptions(MainMenuPromptMessage, 1, false);
-        }
+        //private static ActionBase GetInitialMenu()
+        //{
+        //    return CreateIvrOptions(MainMenuPromptMessage, 1, false);
+        //}
 
-        private static void ProcessMainMenuSelection(RecognizeOutcomeEvent outcome, CallState callStateForClient)
-        {
-            if (outcome.RecognizeOutcome.Outcome != Outcome.Success)
-            {
-                if (outcome.RecognizeOutcome.FailureReason == RecognitionCompletionReason.IncorrectDtmf.ToString())
-                {
-                    SetupInitialMenuWithErrorMessage(outcome.ResultingWorkflow);
-                }
-                else
-                {
-                    SetupInitialMenu(outcome.ResultingWorkflow);
-                }
+        //private static void ProcessMainMenuSelection(RecognizeOutcomeEvent outcome, CallState callStateForClient)
+        //{
+        //    if (outcome.RecognizeOutcome.Outcome != Outcome.Success)
+        //    {
+        //        if (outcome.RecognizeOutcome.FailureReason == RecognitionCompletionReason.IncorrectDtmf.ToString())
+        //        {
+        //            SetupInitialMenuWithErrorMessage(outcome.ResultingWorkflow);
+        //        }
+        //        else
+        //        {
+        //            SetupInitialMenu(outcome.ResultingWorkflow);
+        //        }
 
-                return;
-            }
+        //        return;
+        //    }
 
-            switch (outcome.RecognizeOutcome.ChoiceOutcome.ChoiceName)
-            {
-                case Support:
-                    callStateForClient.ChosenMenuOption = Support;
-                    SetupRecording(outcome.ResultingWorkflow);
-                    break;
-                default:
-                    SetupInitialMenu(outcome.ResultingWorkflow);
-                    break;
-            }
-        }
+        //    switch (outcome.RecognizeOutcome.ChoiceOutcome.ChoiceName)
+        //    {
+        //        case Support:
+        //            callStateForClient.ChosenMenuOption = Support;
+        //            SetupRecording(outcome.ResultingWorkflow);
+        //            break;
+        //        default:
+        //            SetupInitialMenu(outcome.ResultingWorkflow);
+        //            break;
+        //    }
+        //}
 
-        private static Recognize CreateIvrOptions(string textToBeRead, int numberOfOptions, bool includeBack)
-        {
-            if (numberOfOptions > 9)
-            {
-                throw new Exception("too many options specified");
-            }
+        //private static Recognize CreateIvrOptions(string textToBeRead, int numberOfOptions, bool includeBack)
+        //{
+        //    if (numberOfOptions > 9)
+        //    {
+        //        throw new Exception("too many options specified");
+        //    }
 
-            var choices = new List<RecognitionOption>();
+        //    var choices = new List<RecognitionOption>();
 
-            for (int i = 1; i <= numberOfOptions; i++)
-            {
-                choices.Add(new RecognitionOption { Name = Convert.ToString(i), DtmfVariation = (char)('0' + i) });
-            }
+        //    for (int i = 1; i <= numberOfOptions; i++)
+        //    {
+        //        choices.Add(new RecognitionOption { Name = Convert.ToString(i), DtmfVariation = (char)('0' + i) });
+        //    }
 
-            if (includeBack)
-            {
-                choices.Add(new RecognitionOption { Name = "#", DtmfVariation = '#' });
-            }
+        //    if (includeBack)
+        //    {
+        //        choices.Add(new RecognitionOption { Name = "#", DtmfVariation = '#' });
+        //    }
 
-            var recognize = new Recognize
-            {
-                OperationId = Guid.NewGuid().ToString(),
-                PlayPrompt = GetPromptForText(textToBeRead),
-                BargeInAllowed = true,
-                Choices = choices
-            };
+        //    var recognize = new Recognize
+        //    {
+        //        OperationId = Guid.NewGuid().ToString(),
+        //        PlayPrompt = GetPromptForText(textToBeRead),
+        //        BargeInAllowed = true,
+        //        Choices = choices
+        //    };
 
-            return recognize;
-        }
+        //    return recognize;
+        //}
 
         private static void SetupRecording(Workflow workflow)
         {
@@ -181,13 +181,13 @@ namespace MSA_ContosoBank
             return Task.FromResult(true);
         }
 
-        private Task OnPlayPromptCompleted(PlayPromptOutcomeEvent playPromptOutcomeEvent)
-        {
-            var callState = this.callStateMap[playPromptOutcomeEvent.ConversationResult.Id];
-            SetupInitialMenu(playPromptOutcomeEvent.ResultingWorkflow);
+        //private Task OnPlayPromptCompleted(PlayPromptOutcomeEvent playPromptOutcomeEvent)
+        //{
+        //    var callState = this.callStateMap[playPromptOutcomeEvent.ConversationResult.Id];
+        //    SetupInitialMenu(playPromptOutcomeEvent.ResultingWorkflow);
 
-            return Task.FromResult(true);
-        }
+        //    return Task.FromResult(true);
+        //}
 
         private async Task OnRecordCompleted(RecordOutcomeEvent recordOutcomeEvent)
         {
@@ -232,14 +232,14 @@ namespace MSA_ContosoBank
             return text;
         }
 
-        private Task OnRecognizeCompleted(RecognizeOutcomeEvent recognizeOutcomeEvent)
-        {
-            var callState = this.callStateMap[recognizeOutcomeEvent.ConversationResult.Id];
+        //private Task OnRecognizeCompleted(RecognizeOutcomeEvent recognizeOutcomeEvent)
+        //{
+        //    var callState = this.callStateMap[recognizeOutcomeEvent.ConversationResult.Id];
 
-            ProcessMainMenuSelection(recognizeOutcomeEvent, callState);
+        //    ProcessMainMenuSelection(recognizeOutcomeEvent, callState);
 
-            return Task.FromResult(true);
-        }
+        //    return Task.FromResult(true);
+        //}
 
         private class CallState
         {
