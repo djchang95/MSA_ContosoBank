@@ -47,9 +47,6 @@ namespace MSA_ContosoBank
                 {
                     mymessage = "Something went wrong with Audio processing";
                 }
-
-
-                await Conversation.SendAsync(activity, () => new Dialogs.LuisDialog());
             }
             else
             {
