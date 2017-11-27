@@ -13,58 +13,42 @@ namespace MSA_ContosoBank
 {
     public class CallBot : IDisposable, ICallingBot
     {
-        public ICallingBotService CallingBotService { get; }
-
         private readonly MicrosoftCognitiveSpeechService speechService = new MicrosoftCognitiveSpeechService();
 
         public CallBot(ICallingBotService callingBotService)
         {
             this.CallingBotService = callingBotService;
 
-            this.CallingBotService.OnIncomingCallReceived += this.onIncomingCallReceived;
-            this.CallingBotService.OnRecordCompleted += this.onRecordCompleted;
-            this.CallingBotService.OnHangupCompleted += onHangupCompleted;
+            this.CallingBotService.OnIncomingCallReceived += this.OnIncomingCallReceived;
+            this.CallingBotService.OnRecordCompleted += this.OnRecordCompleted;
+            this.CallingBotService.OnHangupCompleted += OnHangupCompleted;
         }
 
-        private static Task onHangupCompleted(HangupOutcomeEvent hangupOutcomeEvent)
+        public ICallingBotService CallingBotService { get; }
+
+        public void Dispose()
+        {
+            if (this.CallingBotService != null)
+            {
+                this.CallingBotService.OnIncomingCallReceived -= this.OnIncomingCallReceived;
+                this.CallingBotService.OnRecordCompleted -= this.OnRecordCompleted;
+                this.CallingBotService.OnHangupCompleted -= OnHangupCompleted;
+            }
+        }
+
+        private static Task OnHangupCompleted(HangupOutcomeEvent hangupOutcomeEvent)
         {
             hangupOutcomeEvent.ResultingWorkflow = null;
             return Task.FromResult(true);
         }
 
-        private async Task onRecordCompleted(RecordOutcomeEvent recordOutcomeEvent)
+        private static PlayPrompt GetPromptForText(string text)
         {
-            List<ActionBase> actions = new List<ActionBase>();
-
-            var spokenText = string.Empty;
-            if (recordOutcomeEvent.RecordOutcome.Outcome == Outcome.Success)
-            {
-                var record = await recordOutcomeEvent.RecordedContent;
-                spokenText = await this.speechService.GetTextFromAudioAsync(record);
-                actions.Add(new PlayPrompt
-                {
-                    OperationId = Guid.NewGuid().ToString(),
-                    Prompts = new List<Prompt> {
-                    new Prompt {Value = "Thanks for leaving the message" },
-                    new Prompt {Value = "You said..." + spokenText} } });
-            }
-            else
-            {
-                actions.Add(new PlayPrompt { OperationId = Guid.NewGuid().ToString(),
-                Prompts = new List<Prompt>
-                {
-                    new Prompt{Value = "Sorry, there was an issue. "}
-                }
-                });
-
-                actions.Add(new Hangup { OperationId = Guid.NewGuid().ToString() });
-
-                recordOutcomeEvent.ResultingWorkflow.Actions = actions;
-                recordOutcomeEvent.ResultingWorkflow.Links = null;
-            }
+            var prompt = new Prompt { Value = text, Voice = VoiceGender.Male };
+            return new PlayPrompt { OperationId = Guid.NewGuid().ToString(), Prompts = new List<Prompt> { prompt } };
         }
 
-        private Task onIncomingCallReceived(IncomingCallEvent incomingCallEvent)
+        private Task OnIncomingCallReceived(IncomingCallEvent incomingCallEvent)
         {
             var record = new Record
             {
@@ -73,23 +57,34 @@ namespace MSA_ContosoBank
                 RecordingFormat = RecordingFormat.Wav
             };
 
-            incomingCallEvent.ResultingWorkflow.Actions = new List<ActionBase>
-            {
-                new Answer {OperationId = Guid.NewGuid().ToString()},
+            incomingCallEvent.ResultingWorkflow.Actions = new List<ActionBase> {
+                new Answer { OperationId = Guid.NewGuid().ToString() },
                 record
             };
 
             return Task.FromResult(true);
         }
 
-        public void Dispose()
+        private async Task OnRecordCompleted(RecordOutcomeEvent recordOutcomeEvent)
         {
-            if (this.CallingBotService != null)
+            List<ActionBase> actions = new List<ActionBase>();
+
+            var spokenText = string.Empty;
+            if (recordOutcomeEvent.RecordOutcome.Outcome == Outcome.Success)
             {
-                this.CallingBotService.OnIncomingCallReceived -= this.onIncomingCallReceived;
-                this.CallingBotService.OnRecordCompleted -= this.onRecordCompleted;
-                this.CallingBotService.OnHangupCompleted -= onHangupCompleted;
+                var record = await recordOutcomeEvent.RecordedContent;
+                spokenText = await this.speechService.GetTextFromAudioAsync(record);
+                actions.Add(new PlayPrompt { OperationId = Guid.NewGuid().ToString(), Prompts = new List<Prompt> { new Prompt { Value = "Thanks for leaving the message." }, new Prompt { Value = "You said... " + spokenText } } });
             }
+            else
+            {
+                actions.Add(new PlayPrompt { OperationId = Guid.NewGuid().ToString(), Prompts = new List<Prompt> { new Prompt { Value = "Sorry, there was an issue. " } } });
+            }
+
+            actions.Add(new Hangup { OperationId = Guid.NewGuid().ToString() }); // hang up the call
+
+            recordOutcomeEvent.ResultingWorkflow.Actions = actions;
+            recordOutcomeEvent.ResultingWorkflow.Links = null;
         }
     }
 }

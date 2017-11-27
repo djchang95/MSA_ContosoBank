@@ -426,6 +426,27 @@ namespace MSA_ContosoBank.Dialogs
             context.Wait(MessageReceived);
         }
 
+        [LuisIntent("Stock")]
+        public async Task stock(IDialogContext context, LuisResult result)
+        {
+            string companyname = result.Entities.First().Entity.ToUpper();
+            using (var client = new HttpClient())
+            {   
+                string url = $"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={companyname}&outputsize=full&apikey=BRBIL98ZCADVQBFL";
+                var response = await client.GetAsync(url);
+
+                var responseText = await response.Content.ReadAsStringAsync();
+                var index = responseText.IndexOf("close", 286) + 9;
+                var index2 = responseText.IndexOf('"', index);
+                var indexLength = index2 - index;
+
+                var stock = responseText.Substring(index, indexLength);
+
+                await context.PostAsync("Stock price of " + companyname + "=" + stock);
+            }
+            context.Wait(MessageReceived);
+        }
+
         [LuisIntent("exchange")]
         public async Task exchange(IDialogContext context, LuisResult result)
         {
