@@ -40,9 +40,9 @@ namespace MSA_ContosoBank
             this.CallingBotService = callingBotService;
 
             this.CallingBotService.OnIncomingCallReceived += this.OnIncomingCallReceived;
-            this.CallingBotService.OnPlayPromptCompleted += this.OnPlayPromptCompleted;
+            //this.CallingBotService.OnPlayPromptCompleted += this.OnPlayPromptCompleted;
             this.CallingBotService.OnRecordCompleted += this.OnRecordCompleted;
-            this.CallingBotService.OnRecognizeCompleted += this.OnRecognizeCompleted;
+            //this.CallingBotService.OnRecognizeCompleted += this.OnRecognizeCompleted;
             this.CallingBotService.OnHangupCompleted += OnHangupCompleted;
         }
 
