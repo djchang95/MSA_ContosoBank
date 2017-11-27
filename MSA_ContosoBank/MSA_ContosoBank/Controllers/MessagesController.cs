@@ -37,6 +37,7 @@ namespace MSA_ContosoBank
                         var stream = await GetAudioStream(connector, audioAttachment);
                         var text = await this.speechService.GetTextFromAudioAsync(stream);
                         mymessage = ProcessText(text);
+                        Activity reply = activity.CreateReply(mymessage);
                     }
                     else
                     {

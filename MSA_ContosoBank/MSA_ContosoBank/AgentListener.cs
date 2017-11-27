@@ -50,7 +50,7 @@ namespace MSA_ContosoBank
                 activity.Locale = "en-Us";
                 //await connector.Conversations.SendToConversationAsync((Activity)activity);
 
-                connector.Conversations.ReplyToActivity((Activity)activity);
+                await connector.Conversations.ReplyToActivityAsync((Activity)activity);
             }
             catch (Exception exp)
             {
