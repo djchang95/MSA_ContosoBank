@@ -12,14 +12,14 @@ namespace MSA_ContosoBank
     {
         // This will send an adhoc message to the user
         public static async Task Resume(
-            string toId,
-            string toName,
-            string fromId,
-            string fromName,
-            string conversationId,
+            //string toId,
+            //string toName,
+            //string fromId,
+            //string fromName,
+            //string conversationId,
             string message,
-            string serviceUrl = "https://smba.trafficmanager.net/apis/",
-            string channelId = "skype")
+            string serviceUrl = "https://smba.trafficmanager.net/apis/")
+            //string channelId = "skype")
         {
             if (!MicrosoftAppCredentials.IsTrustedServiceUrl(serviceUrl))
             {
@@ -28,29 +28,29 @@ namespace MSA_ContosoBank
 
             try
             {
-                var userAccount = new ChannelAccount(fromId, fromName);
-                var botAccount = new ChannelAccount(toId, toName);
+                //var userAccount = new ChannelAccount(fromId, fromName);
+                //var botAccount = new ChannelAccount(toId, toName);
                 var connector = new ConnectorClient(new Uri(serviceUrl));
 
                 IMessageActivity activity = Activity.CreateMessageActivity();
 
-                if (!string.IsNullOrEmpty(conversationId) && !string.IsNullOrEmpty(channelId))
-                {
-                    activity.ChannelId = channelId;
-                }
-                else
-                {
-                    conversationId = (await connector.Conversations.CreateDirectConversationAsync(userAccount, botAccount)).Id;
-                }
+                //if (!string.IsNullOrEmpty(conversationId) && !string.IsNullOrEmpty(channelId))
+                //{
+                //    activity.ChannelId = channelId;
+                //}
+                //else
+                //{
+                //    conversationId = (await connector.Conversations.CreateDirectConversationAsync(userAccount, botAccount)).Id;
+                //}
 
-                activity.From = userAccount;
-                activity.Recipient = botAccount;
-                activity.Conversation = new ConversationAccount(id: conversationId);
+                //activity.From = userAccount;
+                //activity.Recipient = botAccount;
+                //activity.Conversation = new ConversationAccount(id: conversationId);
                 activity.Text = message;
-                activity.Locale = "en-Us";
-                await connector.Conversations.SendToConversationAsync((Activity)activity);
+                //activity.Locale = "en-Us";
+                //await connector.Conversations.SendToConversationAsync((Activity)activity);
 
-                //await connector.Conversations.ReplyToActivityAsync((Activity)activity);
+                await connector.Conversations.ReplyToActivityAsync((Activity)activity);
 
             }
             catch (Exception exp)
