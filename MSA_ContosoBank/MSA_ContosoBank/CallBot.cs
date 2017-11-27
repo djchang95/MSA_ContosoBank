@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Calling.ObjectModel.Contracts;
 using Microsoft.Bot.Builder.Calling.ObjectModel.Misc;
 using MSA_ContosoBank.Services;
+using System.IO;
+using System.Diagnostics;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace MSA_ContosoBank
 {
@@ -85,6 +88,22 @@ namespace MSA_ContosoBank
 
             recordOutcomeEvent.ResultingWorkflow.Actions = actions;
             recordOutcomeEvent.ResultingWorkflow.Links = null;
+            
+        }
+
+        private async Task SendSTTResultToUser(string text, IEnumerable<Participant> participants)
+        {
+            var to = participants.Single(x => x.Originator);
+            var from = participants.First(x => !x.Originator);
+
+            await AgentListener.Resume(to.Identity, to.DisplayName, from.Identity, from.DisplayName, to.Identity, text);
+        }
+
+        private async Task<string> GetTextFromAudioAsync(Stream audiostream)
+        {
+            var text = await this.speechService.GetTextFromAudioAsync(audiostream);
+            Debug.WriteLine(text);
+            return text;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace MSA_ContosoBank
 
                     if (audioAttachment != null)
                     {
-                        var stream = await GetImageStream(connector, audioAttachment);
+                        var stream = await GetAudioStream(connector, audioAttachment);
                         var text = await this.speechService.GetTextFromAudioAsync(stream);
                         mymessage = ProcessText(text);
                     }
@@ -118,14 +118,14 @@ namespace MSA_ContosoBank
             return null;
         }
 
-        private static async Task<Stream> GetImageStream(ConnectorClient connector, Attachment imageAttachment)
+        private static async Task<Stream> GetAudioStream(ConnectorClient connector, Attachment audioAttachment)
         {
             using (var httpClient = new HttpClient())
             {
                 // The Skype attachment URLs are secured by JwtToken,
                 // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
                 // https://github.com/Microsoft/BotBuilder/issues/662
-                var uri = new Uri(imageAttachment.ContentUrl);
+                var uri = new Uri(audioAttachment.ContentUrl);
                 if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
