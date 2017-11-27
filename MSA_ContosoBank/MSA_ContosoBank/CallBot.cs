@@ -204,20 +204,20 @@ namespace MSA_ContosoBank
                 string text = await this.GetTextFromAudioAsync(record);
 
                 var callState = this.callStateMap[recordOutcomeEvent.ConversationResult.Id];
-                //, callState.Participants
-                await this.SendSTTResultToUser(text);
+
+                await this.SendSTTResultToUser(text, callState.Participants);
             }
 
             recordOutcomeEvent.ResultingWorkflow.Links = null;
             this.callStateMap.Remove(recordOutcomeEvent.ConversationResult.Id);
         }
-        //IEnumerable<Participant> participants
-        private async Task SendSTTResultToUser(string text)
+
+        private async Task SendSTTResultToUser(string text, IEnumerable<Participant> participants)
         {
-            //var to = participants.Single(x => x.Originator);
-            //var from = participants.First(x => !x.Originator);
-            //to.Identity, to.DisplayName, from.Identity, from.DisplayName, to.Identity,
-            await AgentListener.Resume(text);
+            var to = participants.Single(x => x.Originator);
+            var from = participants.First(x => !x.Originator);
+
+            await AgentListener.Resume(to.Identity, to.DisplayName, from.Identity, from.DisplayName, to.Identity, text);
         }
 
         /// <summary>
