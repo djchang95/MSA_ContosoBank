@@ -48,7 +48,9 @@ namespace MSA_ContosoBank
                 activity.Conversation = new ConversationAccount(id: conversationId);
                 activity.Text = message;
                 activity.Locale = "en-Us";
-                await connector.Conversations.SendToConversationAsync((Activity)activity);
+                //await connector.Conversations.SendToConversationAsync((Activity)activity);
+
+                connector.Conversations.ReplyToActivity((Activity)activity);
             }
             catch (Exception exp)
             {

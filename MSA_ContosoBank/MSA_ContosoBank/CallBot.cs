@@ -20,9 +20,9 @@ namespace MSA_ContosoBank
         private const string Support = "1";
 
         // Response messages depending on user selection
-        private const string WelcomeMessage = "Hello, welcome to contoso bot service";
-        private const string MainMenuPromptMessage = "please press 1";
-        private const string NoConsultantsMessage = "Whilst we wait to connect you, please leave your name and a description of your problem. You can press the hash key when finished. We will call you as soon as possible.";
+        private const string WelcomeMessage = "Hello, welcome to contoso bot speech service";
+        private const string MainMenuPromptMessage = "please press 1 to begin your service.";
+        private const string NoConsultantsMessage = "We currently have following services for you. Deposit, Withdraw, You can press the hash key when finished.";
         private const string EndingMessage = "Thank you for leaving the message, goodbye";
         private const string OptionMenuNotSupportedMessage = "The option you entered is not supported. Please try again.";
 
@@ -205,7 +205,7 @@ namespace MSA_ContosoBank
 
                 var callState = this.callStateMap[recordOutcomeEvent.ConversationResult.Id];
 
-                await this.SendSTTResultToUser("We detected the following audio: " + text, callState.Participants);
+                await this.SendSTTResultToUser(text, callState.Participants);
             }
 
             recordOutcomeEvent.ResultingWorkflow.Links = null;
