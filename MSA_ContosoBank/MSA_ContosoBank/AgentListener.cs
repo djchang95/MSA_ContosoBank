@@ -28,8 +28,8 @@ namespace MSA_ContosoBank
 
             try
             {
-                var userAccount = new ChannelAccount(toId, toName);
-                var botAccount = new ChannelAccount(fromId, fromName);
+                var userAccount = new ChannelAccount(fromId, fromName);
+                var botAccount = new ChannelAccount(toId, toName);
                 var connector = new ConnectorClient(new Uri(serviceUrl));
 
                 IMessageActivity activity = Activity.CreateMessageActivity();
@@ -40,17 +40,18 @@ namespace MSA_ContosoBank
                 }
                 else
                 {
-                    conversationId = (await connector.Conversations.CreateDirectConversationAsync(botAccount, userAccount)).Id;
+                    conversationId = (await connector.Conversations.CreateDirectConversationAsync(userAccount, botAccount)).Id;
                 }
 
-                activity.From = botAccount;
-                activity.Recipient = userAccount;
+                activity.From = userAccount;
+                activity.Recipient = botAccount;
                 activity.Conversation = new ConversationAccount(id: conversationId);
                 activity.Text = message;
                 activity.Locale = "en-Us";
-                //await connector.Conversations.SendToConversationAsync((Activity)activity);
+                await connector.Conversations.SendToConversationAsync((Activity)activity);
 
-                await connector.Conversations.ReplyToActivityAsync((Activity)activity);
+                //await connector.Conversations.ReplyToActivityAsync((Activity)activity);
+
             }
             catch (Exception exp)
             {
