@@ -24,7 +24,6 @@ namespace MSA_ContosoBank
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-            string mymessage;
 
             if (activity.Type == ActivityTypes.Message)
             {

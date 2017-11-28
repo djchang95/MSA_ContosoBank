@@ -62,3 +62,6 @@ C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bi
 C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
 C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\Bot Application.dll
 C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\Bot Application.pdb
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\MSA_ContosoBank.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\bin\Microsoft.Rest.ClientRuntime.xml
+C:\Users\Admin\Desktop\GitHub\MSA_ContosoBank\MSA_ContosoBank\MSA_ContosoBank\obj\Debug\MSA_ContosoBank.csproj.CoreCompileInputs.cache
