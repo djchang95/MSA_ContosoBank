@@ -29,5 +29,8 @@ namespace MSA_ContosoBank.DataModel
 
         [JsonProperty(PropertyName = "userName")]
         public string userName { get; set; }
+
+        [JsonProperty(PropertyName = "password")]
+        public string password { get; set; }
     }
 }

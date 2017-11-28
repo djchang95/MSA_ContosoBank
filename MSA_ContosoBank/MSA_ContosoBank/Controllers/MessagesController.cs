@@ -23,63 +23,22 @@ namespace MSA_ContosoBank
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
+            var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+            string mymessage;
+
             if (activity.Type == ActivityTypes.Message)
             {
-                var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-                string mymessage;
-
-                try
-                {
-                    var audioAttachment = activity.Attachments?.FirstOrDefault(a => a.ContentType.Equals("audio/wav") || a.ContentType.Equals("application/octet-stream"));
-
-                    if (audioAttachment != null)
-                    {
-                        var stream = await GetAudioStream(connector, audioAttachment);
-                        var text = await this.speechService.GetTextFromAudioAsync(stream);
-                        mymessage = ProcessText(text);
-                        Activity reply = activity.CreateReply(mymessage);
-                    }
-                    else
-                    {
-                        await Conversation.SendAsync(activity, () => new Dialogs.LuisDialog());
-                    }
-                }
-                catch
-                {
-                    mymessage = "Something went wrong with Audio processing";
-                }
+                await Conversation.SendAsync(activity, () => new Dialogs.LuisDialog());
             }
             else
             {
                 HandleSystemMessage(activity);
             }
-
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
 
-        private static string ProcessText(string text)
-        {
-            string message = "You said : " + text + ".";
-
-            if (!string.IsNullOrEmpty(text))
-            {
-                var wordCount = text.Split(' ').Count(x => !string.IsNullOrEmpty(x));
-                message += "\n\nWord Count: " + wordCount;
-
-                var characterCount = text.Count(c => c != ' ');
-                message += "\n\nCharacter Count: " + characterCount;
-
-                var spaceCount = text.Count(c => c == ' ');
-                message += "\n\nSpace Count: " + spaceCount;
-
-                var vowelCount = text.ToUpper().Count("AEIOU".Contains);
-                message += "\n\nVowel Count: " + vowelCount;
-            }
-
-            return message;
-        }
-
+        
         private Activity HandleSystemMessage(Activity message)
         {
 
@@ -114,35 +73,6 @@ namespace MSA_ContosoBank
             }
             else if (message.Type == ActivityTypes.Ping)
             {
-            }
-
-            return null;
-        }
-
-        private static async Task<Stream> GetAudioStream(ConnectorClient connector, Attachment audioAttachment)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                // The Skype attachment URLs are secured by JwtToken,
-                // you should set the JwtToken of your bot as the authorization header for the GET request your bot initiates to fetch the image.
-                // https://github.com/Microsoft/BotBuilder/issues/662
-                var uri = new Uri(audioAttachment.ContentUrl);
-                if (uri.Host.EndsWith("skype.com") && uri.Scheme == "https")
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync(connector));
-                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/octet-stream"));
-                }
-
-                return await httpClient.GetStreamAsync(uri);
-            }
-        }
-
-        private static async Task<string> GetTokenAsync(ConnectorClient connector)
-        {
-            var credentials = connector.Credentials as MicrosoftAppCredentials;
-            if (credentials != null)
-            {
-                return await credentials.GetTokenAsync();
             }
 
             return null;

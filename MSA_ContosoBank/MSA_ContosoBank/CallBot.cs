@@ -201,17 +201,18 @@ namespace MSA_ContosoBank
             if (recordOutcomeEvent.RecordOutcome.Outcome == Outcome.Success)
             {
                 var record = await recordOutcomeEvent.RecordedContent;
-                string text = await this.GetTextFromAudioAsync(record);
+                var text = await this.GetTextFromAudioAsync(record);
 
                 var callState = this.callStateMap[recordOutcomeEvent.ConversationResult.Id];
 
-                await this.SendSTTResultToUser(text, callState.Participants);
+                await this.SendSTTResultToUser("You said"+text, callState.Participants);
+                
             }
 
             recordOutcomeEvent.ResultingWorkflow.Links = null;
             this.callStateMap.Remove(recordOutcomeEvent.ConversationResult.Id);
         }
-
+        
         private async Task SendSTTResultToUser(string text, IEnumerable<Participant> participants)
         {
             var to = participants.Single(x => x.Originator);

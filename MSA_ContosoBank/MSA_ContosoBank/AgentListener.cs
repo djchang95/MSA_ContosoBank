@@ -50,9 +50,6 @@ namespace MSA_ContosoBank
                 activity.Text = message;
                 activity.Locale = "en-Us";
                 await connector.Conversations.SendToConversationAsync((Activity)activity);
-
-                await Conversation.SendAsync(activity, () => new Dialogs.LuisDialog());
-
             }
             catch (Exception exp)
             {
