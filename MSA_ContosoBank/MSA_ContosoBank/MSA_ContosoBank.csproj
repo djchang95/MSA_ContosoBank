@@ -144,7 +144,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="contosoweb.htm" />
+    <Content Include="default.htm" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="frontpagebank.jpg" />
     <Content Include="frontpagebank2.jpg" />
@@ -177,7 +177,6 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="DataModel\currencyRate.cs" />
     <Compile Include="DataModel\News.cs" />
-    <Compile Include="DataModel\User.cs" />
     <Compile Include="DataModel\User2.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Global.asax.cs">

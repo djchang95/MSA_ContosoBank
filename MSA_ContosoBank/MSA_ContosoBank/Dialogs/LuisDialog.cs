@@ -19,6 +19,7 @@ namespace MSA_ContosoBank.Dialogs
         private User2 userinfo;
         private string balance;
 
+
         [LuisIntent("Greeting")]
         public async Task Greeting(IDialogContext context, LuisResult result)
         {
@@ -105,7 +106,7 @@ namespace MSA_ContosoBank.Dialogs
             };
             CardAction ca4 = new CardAction()
             {
-                Title = "Find out the exchange rate",
+                Title = "Find out the Exchange rate",
                 Value = "Exchange rate"
             };
             CardAction ca5 = new CardAction()
@@ -224,7 +225,7 @@ namespace MSA_ContosoBank.Dialogs
                 };
                 HeroCard herocard = new HeroCard()
                 {
-                    Title = $"Are you sure you want to deposit ${newbalance}?",
+                    Title = $"Do you want to deposit ${newbalance}?",
                     Subtitle = "Please select one from above",
                     Buttons = new List<CardAction>()
                 };
@@ -301,7 +302,7 @@ namespace MSA_ContosoBank.Dialogs
                 };
                 HeroCard herocard = new HeroCard()
                 {
-                    Title = $"Are you sure you want to withdraw ${newbalance}?",
+                    Title = $"Do you want to withdraw ${newbalance}?",
                     Subtitle = "Please select one from above",
                     Buttons = new List<CardAction>()
                 };
@@ -382,7 +383,7 @@ namespace MSA_ContosoBank.Dialogs
             };
             HeroCard herocard = new HeroCard()
             {
-                Title = "Are you sure you want to delete your account?",
+                Title = "Do you want to delete account?",
                 Subtitle = "You will be losing all your account information including your current balance. \n\n if you still want to delete your account, please select one from below",
                 Buttons = new List<CardAction>()
             };
@@ -566,7 +567,7 @@ namespace MSA_ContosoBank.Dialogs
                 List<CardAction> cardbutton = new List<CardAction>();
                 CardAction ca = new CardAction()
                 {
-                    Title = "Link to news website",
+                    Title = "Click for more information",
                     Value = news.url,
                     Type = "openUrl"
                 };
@@ -599,7 +600,70 @@ namespace MSA_ContosoBank.Dialogs
         [LuisIntent("help")]
         public async Task help(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync("Welcome to the Contoso Bank Bot service. \n\n I will explain you how to use this chat bot. \n\n First, if you have logged in, you may see the list of services that we provide. \n\n Second, please choose or type one of the service and each service will give you detailed instruction to complete the service. \n\n Should you need human help, please contact 0800-000-000 for human help.  \n\n Please say 'Hello' to begin your chat");
+            var cardmessage = context.MakeMessage();
+            cardmessage.Attachments = new List<Attachment>();
+            CardAction ca = new CardAction()
+            {
+                Title = "Deposit",
+                Value = "Deposit"
+            };
+            CardAction ca2 = new CardAction()
+            {
+                Title = "Withdraw",
+                Value = "Withdraw"
+            };
+            CardAction ca3 = new CardAction()
+            {
+                Title = "Check Balance",
+                Value = "My Balance"
+            };
+            CardAction ca4 = new CardAction()
+            {
+                Title = "Find out the Exchange rate",
+                Value = "Exchange rate"
+            };
+            CardAction ca5 = new CardAction()
+            {
+                Title = "Find out the Stock price",
+                Value = "Stock price"
+            };
+
+            CardAction ca6 = new CardAction()
+            {
+                Title = "Current News",
+                Value = "news"
+            };
+            CardAction ca7 = new CardAction()
+            {
+                Title = "Delete account",
+                Value = "Delete my account"
+            };
+            CardAction ca8 = new CardAction()
+            {
+                Title = "Help",
+                Value = "help"
+            };
+
+            HeroCard herocard = new HeroCard()
+            {
+                Title = "Contoso Bank Bot Service",
+                Subtitle = "Please select/type one of the services",
+                Buttons = new List<CardAction>()
+            };
+            herocard.Buttons.Add(ca);
+            herocard.Buttons.Add(ca2);
+            herocard.Buttons.Add(ca3);
+            herocard.Buttons.Add(ca4);
+            herocard.Buttons.Add(ca5);
+            herocard.Buttons.Add(ca6);
+            herocard.Buttons.Add(ca7);
+            herocard.Buttons.Add(ca8);
+
+
+            cardmessage.Attachments.Add(herocard.ToAttachment());
+
+            await context.PostAsync("Hi, I will explain you how to use this chat bot. \n\n If you have logged in, you may see the list of services that we provide. \n\n Please choose or type one of the service and each service will give you detailed instruction to complete the service. \n\n Should you need human help, please contact 0800-000-000 for human help.");
+            await context.PostAsync(cardmessage);
         }
     }
 }
