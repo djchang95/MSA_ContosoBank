@@ -75,6 +75,11 @@ namespace MSA_ContosoBank.Dialogs
                     Title = "Delete account",
                     Value = "Delete my account"
                 };
+                CardAction ca8 = new CardAction()
+                {
+                    Title = "Help",
+                    Value = "help"
+                };
 
                 HeroCard herocard = new HeroCard()
                 {
@@ -89,6 +94,8 @@ namespace MSA_ContosoBank.Dialogs
                 herocard.Buttons.Add(ca5);
                 herocard.Buttons.Add(ca6);
                 herocard.Buttons.Add(ca7);
+                herocard.Buttons.Add(ca8);
+
 
                 cardmessage.Attachments.Add(herocard.ToAttachment());
 
@@ -521,7 +528,7 @@ namespace MSA_ContosoBank.Dialogs
                 List<CardAction> cardbutton = new List<CardAction>();
                 CardAction ca = new CardAction()
                 {
-                    Title = "Click the link to see the news in detail",
+                    Title = "Link to news website",
                     Value = news.url,
                     Type = "openUrl"
                 };
