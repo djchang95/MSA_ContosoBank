@@ -22,7 +22,7 @@ namespace MSA_ContosoBank
         // Response messages depending on user selection
         private const string WelcomeMessage = "Hello, welcome to contoso bot speech service";
         private const string MainMenuPromptMessage = "please press 1 to begin your service.";
-        private const string NoConsultantsMessage = "We currently have following services for you. Deposit, Withdraw, You can press the hash key when finished.";
+        private const string NoConsultantsMessage = "We currently have following services for you. Deposit, Withdraw, balance check, finding exchange rate of currencies, finding stock price of companies, deleting account. Please select or type one of the services and for your convinience, your voice will be translated into text. Please press the hash key when finished.";
         private const string EndingMessage = "Thank you for leaving the message, goodbye";
         private const string OptionMenuNotSupportedMessage = "The option you entered is not supported. Please try again.";
 
@@ -205,7 +205,7 @@ namespace MSA_ContosoBank
 
                 var callState = this.callStateMap[recordOutcomeEvent.ConversationResult.Id];
 
-                await this.SendSTTResultToUser("You said"+text, callState.Participants);
+                await this.SendSTTResultToUser("You said: "+text, callState.Participants);
                 
             }
 

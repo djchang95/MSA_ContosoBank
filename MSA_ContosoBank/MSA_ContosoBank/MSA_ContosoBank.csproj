@@ -23,6 +23,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -143,12 +144,12 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="default.htm" />
+    <Content Include="contosoweb.htm" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="frontpagebank.jpg" />
     <Content Include="frontpagebank2.jpg" />
     <Content Include="Global.asax" />
-    <Content Include="Logo.jpg" />
+    <Content Include="Logo2.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -175,6 +176,7 @@
     <Compile Include="Controllers\CallingController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="DataModel\currencyRate.cs" />
+    <Compile Include="DataModel\News.cs" />
     <Compile Include="DataModel\User.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Global.asax.cs">

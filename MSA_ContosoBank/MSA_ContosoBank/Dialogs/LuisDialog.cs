@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 
 namespace MSA_ContosoBank.Dialogs
 {
-    [LuisModel("a5a30735-cacd-4d13-8b25-918d27d7ebeb", "1db6495ff375456bb4b71aa80a7097ec")]
+    [LuisModel("df58f5a9-0c7f-41cb-9907-db29b13de067", "a0541c7b5e0344c889570c0057845e50")]
     [Serializable]
     public class LuisDialog : LuisDialog<object>
     {
@@ -25,7 +25,7 @@ namespace MSA_ContosoBank.Dialogs
             await context.PostAsync("Hi, Welcome to Contoso Bot Service.");
             PromptDialog.Text(context, this.initial, "Before you begin our service please enter your ID. If you do not have an ID, we will create one for you");
         }
-        //Assign new customer to our database
+        //Assign customer to our database
         private async Task initial(IDialogContext context, IAwaitable<string> result)
         {
             try
@@ -61,19 +61,25 @@ namespace MSA_ContosoBank.Dialogs
                 };
                 CardAction ca5 = new CardAction()
                 {
-                    Title = "Delete account",
-                    Value = "Delete my account"
+                    Title = "Find out the Stock price",
+                    Value = "Stock price"
                 };
+
                 CardAction ca6 = new CardAction()
                 {
-                    Title = "Help",
-                    Value = "Help"
+                    Title = "Current News",
+                    Value = "news"
+                };
+                CardAction ca7 = new CardAction()
+                {
+                    Title = "Delete account",
+                    Value = "Delete my account"
                 };
 
                 HeroCard herocard = new HeroCard()
                 {
                     Title = "Contoso Bank Bot Service",
-                    Subtitle = "We have following services for you. \n\n You can either choose to write or click the keywords. \n\n If you need help, please type or click 'help'",
+                    Subtitle = "Please select/type one of the services",
                     Buttons = new List<CardAction>()
                 };
                 herocard.Buttons.Add(ca);
@@ -82,6 +88,7 @@ namespace MSA_ContosoBank.Dialogs
                 herocard.Buttons.Add(ca4);
                 herocard.Buttons.Add(ca5);
                 herocard.Buttons.Add(ca6);
+                herocard.Buttons.Add(ca7);
 
                 cardmessage.Attachments.Add(herocard.ToAttachment());
 
@@ -91,23 +98,20 @@ namespace MSA_ContosoBank.Dialogs
                     foreach (User u in users)
                     {
                         //if there is matching username
-                        if (u.userName.Equals(userName, StringComparison.InvariantCultureIgnoreCase) && this.userinfo.deleted == false)
+                        if (u.userName.Equals(userName, StringComparison.InvariantCultureIgnoreCase))
                         {
                             this.userinfo = u;
-
                             await context.PostAsync($"Welcome back {userName}");
                             await context.PostAsync(cardmessage);
+                            break;
                         }
-                        //if there is no matching username
-                        else
-                        {
-                            await AzureManager.AzureManagerInstance.CreateUser(userinfo);
 
-                            this.userinfo = u;
-                            await context.PostAsync($"Welcome {userName}, I have created a new account for you");
-                            await context.PostAsync(cardmessage);
-                        }
+
                     }
+                    await AzureManager.AzureManagerInstance.CreateUser(userinfo);
+
+                    await context.PostAsync($"Welcome {this.userinfo.userName}, I have created a new account for you");
+                    await context.PostAsync(cardmessage);
                 }
 
                 //if no user available
@@ -117,15 +121,13 @@ namespace MSA_ContosoBank.Dialogs
 
                     await context.PostAsync($"Welcome {userName}, I have created a new account for you");
                     await context.PostAsync(cardmessage);
-
-                    //context.UserData.SetValue("username", userinfo.userName);
                 }
             }
             catch
             {
-                await context.PostAsync("Something wrong with the bot");
+                await context.PostAsync("Please choose/type one from above");
             }
-
+            await context.PostAsync("If you need help, please say 'help' or call our speech bot service");
             context.Wait(this.MessageReceived);
         }
 
@@ -187,29 +189,6 @@ namespace MSA_ContosoBank.Dialogs
 
                 await context.PostAsync(cardmessage);
 
-                //try
-                //{
-
-                //    List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
-
-                //    foreach (User u in users)
-                //    {
-                //        if (u.userName.Equals(this.userinfo.userName, StringComparison.InvariantCultureIgnoreCase))
-                //        {
-                //            currentbalance += newbalance;
-                //            this.userinfo.balance = currentbalance;
-                //            await AzureManager.AzureManagerInstance.UpdateUser(this.userinfo);
-                //            await context.PostAsync($"We have now added funds upon your request. Your balance has now been updated. Balance: ${this.userinfo.balance}");
-                //        }
-                //    }
-
-
-                //}
-                //catch
-                //{
-                //    await context.PostAsync("Something wrong with deposit");
-                //}
-                //context.Wait(MessageReceived);
                 PromptDialog.Text(context, this.depositprompt, "Please select one from above");
             }
             else
@@ -237,7 +216,7 @@ namespace MSA_ContosoBank.Dialogs
                             currentbalance += convertedbalance;
                             this.userinfo.balance = currentbalance;
                             await AzureManager.AzureManagerInstance.UpdateUser(this.userinfo);
-                            await context.PostAsync($"We have now added funds upon your request. Your balance has now been updated. \n\n Balance: ${this.userinfo.balance} \n\n Please visit nearest bank to put your money in your account");
+                            await context.PostAsync($"We have now added funds upon your request. Your balance has now been updated. \n\n Balance: ${this.userinfo.balance} \n\n Please visit nearest bank to deposit your money in your account within 7 days");
                         }
                     }
                 }
@@ -319,7 +298,7 @@ namespace MSA_ContosoBank.Dialogs
                                 currentbalance -= convertedbalance;
                                 this.userinfo.balance = currentbalance;
                                 await AzureManager.AzureManagerInstance.UpdateUser(this.userinfo);
-                                await context.PostAsync($"You have requested withdraw service. Your balance has now been updated. \n\n Balance: ${this.userinfo.balance} \n\n Please visit nearest bank to get your money");
+                                await context.PostAsync($"You have requested withdraw service. Your balance has now been updated. \n\n Balance: ${this.userinfo.balance} \n\n Please visit nearest bank to get your money within 7 days");
                             }
                         }
                     }
@@ -429,20 +408,29 @@ namespace MSA_ContosoBank.Dialogs
         [LuisIntent("Stock")]
         public async Task stock(IDialogContext context, LuisResult result)
         {
-            string companyname = result.Entities.First().Entity.ToUpper();
-            using (var client = new HttpClient())
+            if (!(result.Entities.Count == 0))
             {
-                string url = $"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={companyname}&outputsize=full&apikey=BRBIL98ZCADVQBFL";
-                var response = await client.GetAsync(url);
+                string companyname = result.Entities.First().Entity.ToUpper();
 
-                var responseText = await response.Content.ReadAsStringAsync();
-                var index = responseText.IndexOf("close", 286) + 9;
-                var index2 = responseText.IndexOf('"', index);
-                var indexLength = index2 - index;
+                using (var client = new HttpClient())
+                {
+                    string url = $"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={companyname}&outputsize=full&apikey=BRBIL98ZCADVQBFL";
+                    var response = await client.GetAsync(url);
 
-                var stock = responseText.Substring(index, indexLength);
+                    var responseText = await response.Content.ReadAsStringAsync();
+                    var index = responseText.IndexOf("close", 286) + 9;
+                    var index2 = responseText.IndexOf('"', index);
+                    var indexLength = index2 - index;
 
-                await context.PostAsync("Stock price of " + companyname + "=" + stock);
+                    var stock = responseText.Substring(index, indexLength);
+
+                    await context.PostAsync("Stock price of " + companyname + "=" + stock);
+                }
+            }
+            else
+            {
+                await context.PostAsync($"Please specify the stock price symbol eg. 'Stock price of MSFT'");
+                return;
             }
             context.Wait(MessageReceived);
         }
@@ -511,6 +499,49 @@ namespace MSA_ContosoBank.Dialogs
                 return;
             }
             context.Wait(this.MessageReceived);
+        }
+
+        [LuisIntent("News")] 
+        public async Task news (IDialogContext context, LuisResult result)
+        {
+            string url = $"https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b55936b2626d4d07914ae3f8252b5c77";
+
+            var cardmessage = context.MakeMessage();
+            News.Rootobject newsobject;
+            HttpClient client = new HttpClient();
+            string api = await client.GetStringAsync(new Uri(url));
+            newsobject = JsonConvert.DeserializeObject<News.Rootobject>(api);
+
+            cardmessage.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+            cardmessage.Attachments = new List<Attachment>();
+
+            foreach (var news in newsobject.articles)
+            {
+                
+                List<CardAction> cardbutton = new List<CardAction>();
+                CardAction ca = new CardAction()
+                {
+                    Title = "Click the link to see the news in detail",
+                    Value = news.url,
+                    Type = "openUrl"
+                };
+
+                cardbutton.Add(ca);
+
+
+                HeroCard herocard = new HeroCard()
+                {
+                    Title = news.title,
+                    Text = news.description,
+                    Buttons = cardbutton
+                };
+
+                cardmessage.Attachments.Add(herocard.ToAttachment());
+
+            }
+            await context.PostAsync(cardmessage);
+
+            context.Wait(MessageReceived);
         }
 
         [LuisIntent("")]

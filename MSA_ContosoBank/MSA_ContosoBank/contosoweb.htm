@@ -31,8 +31,16 @@
             position: absolute;
             bottom: 0px;
             right: 0px;
+            color: white;
             background-color: orange;
             font-size:medium;
+        }
+        #chat-button2 {
+            border-style: none;
+            font-size: small;
+            right: 0px;
+            position: absolute;
+            color: black;
         }
 
         #chat-frame {
@@ -54,12 +62,17 @@
         function openChat() {
             var frame = document.getElementById("chat-frame");
             frame.className = "";
+            var img2 = document.getElementById("chat-button2")
+            img2.className = ""
             var img = document.getElementById("chat-button");
             img.className = "hide";
+            
         }
         function closeChat() {
             var frame = document.getElementById("chat-frame");
             frame.className = "hide";
+            var img2 = document.getElementById("chat-button2")
+            img2.className = "hide"
             var img = document.getElementById("chat-button");
             img.className = "";
         }
@@ -74,7 +87,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><img src="Logo.jpg" height="40" width="150"/></a>
+                <a class="navbar-brand" href="#"><img src="Logo2.jpg" height="35" width="150"/></a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
@@ -173,7 +186,8 @@
     </footer>
 
     <div id="chat">
-        <button id="chat-button" class="btn btn-primary" onclick="openChat()">Live Chat</button>
+        <button id="chat-button" class="btn btn-primary" onclick="openChat()">Chat with Bot</button>
+        <button id="chat-button2" class="btn btn-primary, hide"  onclick="closeChat()">Close</button>
         <div id="chat-frame" class="hide">
             <iframe src='https://webchat.botframework.com/embed/MSAContosoBankBotService?s=tf3m1JJgghs.cwA.t8M.S2aAhOqHNfPOdP5CdLyLJBvjbZDjDzoDLFLH2a219XQ'></iframe>
 
