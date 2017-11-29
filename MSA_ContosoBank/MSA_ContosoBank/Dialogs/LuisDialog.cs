@@ -16,7 +16,7 @@ namespace MSA_ContosoBank.Dialogs
     [Serializable]
     public class LuisDialog : LuisDialog<object>
     {
-        private User userinfo;
+        private User2 userinfo;
         private string balance;
 
         [LuisIntent("Greeting")]
@@ -31,94 +31,39 @@ namespace MSA_ContosoBank.Dialogs
             try
             {
                 string userName = await result;
-                List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+                List<User2> users = await AzureManager.AzureManagerInstance.GetUserInformation();
 
-                this.userinfo = new User();
+                this.userinfo = new User2();
                 this.userinfo.userName = userName;
-                this.userinfo.balance = 0.0;
+                this.userinfo.userBalance = 0.0;
+                this.userinfo.userPassword = string.Empty;
 
-                var cardmessage = context.MakeMessage();
-                cardmessage.Attachments = new List<Attachment>();
-                CardAction ca = new CardAction()
-                {
-                    Title = "Deposit",
-                    Value = "Deposit"
-                };
-                CardAction ca2 = new CardAction()
-                {
-                    Title = "Withdraw",
-                    Value = "Withdraw"
-                };
-                CardAction ca3 = new CardAction()
-                {
-                    Title = "Check Balance",
-                    Value = "My Balance"
-                };
-                CardAction ca4 = new CardAction()
-                {
-                    Title = "Find out the exchange rate",
-                    Value = "Exchange rate"
-                };
-                CardAction ca5 = new CardAction()
-                {
-                    Title = "Find out the Stock price",
-                    Value = "Stock price"
-                };
-
-                CardAction ca6 = new CardAction()
-                {
-                    Title = "Current News",
-                    Value = "news"
-                };
-                CardAction ca7 = new CardAction()
-                {
-                    Title = "Delete account",
-                    Value = "Delete my account"
-                };
-                CardAction ca8 = new CardAction()
-                {
-                    Title = "Help",
-                    Value = "help"
-                };
-
-                HeroCard herocard = new HeroCard()
-                {
-                    Title = "Contoso Bank Bot Service",
-                    Subtitle = "Please select/type one of the services",
-                    Buttons = new List<CardAction>()
-                };
-                herocard.Buttons.Add(ca);
-                herocard.Buttons.Add(ca2);
-                herocard.Buttons.Add(ca3);
-                herocard.Buttons.Add(ca4);
-                herocard.Buttons.Add(ca5);
-                herocard.Buttons.Add(ca6);
-                herocard.Buttons.Add(ca7);
-                herocard.Buttons.Add(ca8);
-
-
-                cardmessage.Attachments.Add(herocard.ToAttachment());
-
+                
                 //if user available
                 if (users.Count != 0)
                 {
-                    foreach (User u in users)
+                    foreach (User2 u in users)
                     {
                         //if there is matching username
                         if (u.userName.Equals(userName, StringComparison.InvariantCultureIgnoreCase))
                         {
                             this.userinfo = u;
                             await context.PostAsync($"Welcome back {userName}");
-                            await context.PostAsync(cardmessage);
+                            PromptDialog.Text(context, this.initialPW, "Before you begin our service please enter your PW.");
                             break;
                         }
 
 
                     }
                     await AzureManager.AzureManagerInstance.CreateUser(userinfo);
-
+                    foreach(User2 u in users)
+                    {
+                        if(u.userName.Equals(userName, StringComparison.InvariantCultureIgnoreCase)){
+                            this.userinfo = u;
+                        }
+                    }
                     await context.PostAsync($"Welcome {this.userinfo.userName}, I have created a new account for you");
-                    await context.PostAsync(cardmessage);
+                    PromptDialog.Text(context, this.initialPW, "Before you begin our service please enter your Password.");
                 }
 
                 //if no user available
@@ -127,15 +72,108 @@ namespace MSA_ContosoBank.Dialogs
                     await AzureManager.AzureManagerInstance.CreateUser(userinfo);
 
                     await context.PostAsync($"Welcome {userName}, I have created a new account for you");
-                    await context.PostAsync(cardmessage);
+                    PromptDialog.Text(context, this.initialPW, "Before you begin our service please enter your Password.");
                 }
             }
             catch
             {
-                await context.PostAsync("Please choose/type one from above");
+                await context.PostAsync("Thanks for coming back");
+            }
+        }
+
+        private async Task initialPW(IDialogContext context, IAwaitable<string> result)
+        {
+            string userPw = await result;
+            List<User2> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+
+            var cardmessage = context.MakeMessage();
+            cardmessage.Attachments = new List<Attachment>();
+            CardAction ca = new CardAction()
+            {
+                Title = "Deposit",
+                Value = "Deposit"
+            };
+            CardAction ca2 = new CardAction()
+            {
+                Title = "Withdraw",
+                Value = "Withdraw"
+            };
+            CardAction ca3 = new CardAction()
+            {
+                Title = "Check Balance",
+                Value = "My Balance"
+            };
+            CardAction ca4 = new CardAction()
+            {
+                Title = "Find out the exchange rate",
+                Value = "Exchange rate"
+            };
+            CardAction ca5 = new CardAction()
+            {
+                Title = "Find out the Stock price",
+                Value = "Stock price"
+            };
+
+            CardAction ca6 = new CardAction()
+            {
+                Title = "Current News",
+                Value = "news"
+            };
+            CardAction ca7 = new CardAction()
+            {
+                Title = "Delete account",
+                Value = "Delete my account"
+            };
+            CardAction ca8 = new CardAction()
+            {
+                Title = "Help",
+                Value = "help"
+            };
+
+            HeroCard herocard = new HeroCard()
+            {
+                Title = "Contoso Bank Bot Service",
+                Subtitle = "Please select/type one of the services",
+                Buttons = new List<CardAction>()
+            };
+            herocard.Buttons.Add(ca);
+            herocard.Buttons.Add(ca2);
+            herocard.Buttons.Add(ca3);
+            herocard.Buttons.Add(ca4);
+            herocard.Buttons.Add(ca5);
+            herocard.Buttons.Add(ca6);
+            herocard.Buttons.Add(ca7);
+            herocard.Buttons.Add(ca8);
+
+
+            cardmessage.Attachments.Add(herocard.ToAttachment());
+
+            foreach (User2 u in users)
+            {
+                if (this.userinfo.userPassword == string.Empty)
+                {
+                    this.userinfo.userPassword = userPw;
+                    await AzureManager.AzureManagerInstance.UpdateUser(this.userinfo);
+
+                    await context.PostAsync($"Welcome {this.userinfo.userName}, I have created a new password for you");
+                    await context.PostAsync(cardmessage);
+
+                }
+                //if there is matching username
+                else if (u.userPassword.Equals(userPw, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    this.userinfo = u;
+                    await context.PostAsync("Password confirmed");
+                    await context.PostAsync(cardmessage);
+                    break;
+                }
+            }
+            if (this.userinfo.userPassword != userPw)
+            {
+                await context.PostAsync("Your password is incorrect. If you forgot your password, please contact us to find your password");
             }
             await context.PostAsync("If you need help, please say 'help' or call our speech bot service");
-            context.Wait(this.MessageReceived);
+            context.Wait(MessageReceived);
         }
 
         [LuisIntent("GetBalance")]
@@ -143,14 +181,14 @@ namespace MSA_ContosoBank.Dialogs
         {
             try
             {
-                List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+                List<User2> users = await AzureManager.AzureManagerInstance.GetUserInformation();
 
-                foreach (User u in users)
+                foreach (User2 u in users)
                 {
                     if (u.userName.Equals(this.userinfo.userName, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        this.userinfo.balance = u.balance;
-                        await context.PostAsync($"Your current balance is ${this.userinfo.balance}");
+                        this.userinfo.userBalance = u.userBalance;
+                        await context.PostAsync($"Your current balance is ${this.userinfo.userBalance}");
                     }
                 }
             }
@@ -212,18 +250,18 @@ namespace MSA_ContosoBank.Dialogs
                 try
                 {
                     double convertedbalance = Convert.ToDouble(this.balance);
-                    double currentbalance = this.userinfo.balance;
+                    double currentbalance = this.userinfo.userBalance;
 
-                    List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+                    List<User2> users = await AzureManager.AzureManagerInstance.GetUserInformation();
 
-                    foreach (User u in users)
+                    foreach (User2 u in users)
                     {
                         if (u.userName.Equals(this.userinfo.userName, StringComparison.InvariantCultureIgnoreCase))
                         {
                             currentbalance += convertedbalance;
-                            this.userinfo.balance = currentbalance;
+                            this.userinfo.userBalance = currentbalance;
                             await AzureManager.AzureManagerInstance.UpdateUser(this.userinfo);
-                            await context.PostAsync($"We have now added funds upon your request. Your balance has now been updated. \n\n Balance: ${this.userinfo.balance} \n\n Please visit nearest bank to deposit your money in your account within 7 days");
+                            await context.PostAsync($"We have now added funds upon your request. Your balance has now been updated. \n\n Balance: ${this.userinfo.userBalance} \n\n Please visit nearest bank to deposit your money in your account within 7 days");
                         }
                     }
                 }
@@ -290,22 +328,22 @@ namespace MSA_ContosoBank.Dialogs
                 try
                 {
                     double convertedbalance = Convert.ToDouble(this.balance);
-                    double currentbalance = this.userinfo.balance;
+                    double currentbalance = this.userinfo.userBalance;
 
                     var balanceafterwithdraw = currentbalance - convertedbalance;
 
                     if (currentbalance >= 0 && balanceafterwithdraw >= 0)
                     {
-                        List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+                        List<User2> users = await AzureManager.AzureManagerInstance.GetUserInformation();
 
-                        foreach (User u in users)
+                        foreach (User2 u in users)
                         {
                             if (u.userName.Equals(this.userinfo.userName, StringComparison.InvariantCultureIgnoreCase))
                             {
                                 currentbalance -= convertedbalance;
-                                this.userinfo.balance = currentbalance;
+                                this.userinfo.userBalance = currentbalance;
                                 await AzureManager.AzureManagerInstance.UpdateUser(this.userinfo);
-                                await context.PostAsync($"You have requested withdraw service. Your balance has now been updated. \n\n Balance: ${this.userinfo.balance} \n\n Please visit nearest bank to get your money within 7 days");
+                                await context.PostAsync($"You have requested withdraw service. Your balance has now been updated. \n\n Balance: ${this.userinfo.userBalance} \n\n Please visit nearest bank to get your money within 7 days");
                             }
                         }
                     }
@@ -383,10 +421,10 @@ namespace MSA_ContosoBank.Dialogs
         {
             try
             {
-                List<User> users = await AzureManager.AzureManagerInstance.GetUserInformation();
+                List<User2> users = await AzureManager.AzureManagerInstance.GetUserInformation();
                 var loginID = await result;
 
-                foreach (User u in users)
+                foreach (User2 u in users)
                 {
                     if (u.userName.Equals(this.userinfo.userName, StringComparison.InvariantCultureIgnoreCase))
                     {
@@ -561,7 +599,7 @@ namespace MSA_ContosoBank.Dialogs
         [LuisIntent("help")]
         public async Task help(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync("\b Welcome to the Contoso Bank Bot service.\b \n\n I will explain you how to use this chat bot. \n\n First, if you have logged in, you may see the list of services that we provide. \n\n Second, please choose or type one of the service and each service will give you detailed instruction to complete the service. \n\n Should you need human help, please contact 0800-000-000 for human help.  \n\n Please say 'Hello' to begin your chat");
+            await context.PostAsync("Welcome to the Contoso Bank Bot service. \n\n I will explain you how to use this chat bot. \n\n First, if you have logged in, you may see the list of services that we provide. \n\n Second, please choose or type one of the service and each service will give you detailed instruction to complete the service. \n\n Should you need human help, please contact 0800-000-000 for human help.  \n\n Please say 'Hello' to begin your chat");
         }
     }
 }

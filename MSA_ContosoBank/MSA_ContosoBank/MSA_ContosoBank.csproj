@@ -178,6 +178,7 @@
     <Compile Include="DataModel\currencyRate.cs" />
     <Compile Include="DataModel\News.cs" />
     <Compile Include="DataModel\User.cs" />
+    <Compile Include="DataModel\User2.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
