@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json;
+using AdaptiveCards;
+using System.Threading;
 
 namespace MSA_ContosoBank.Dialogs
 {
@@ -20,11 +22,201 @@ namespace MSA_ContosoBank.Dialogs
         private string balance;
 
 
+
         [LuisIntent("Greeting")]
         public async Task Greeting(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("Hi, Welcome to Contoso Bot Service.");
-            PromptDialog.Text(context, this.initial, "Before you begin our service please enter your ID. If you do not have an ID, we will create one for you");
+            //PromptDialog.Text(context, this.initial, "Before you begin our service please enter your ID. If you do not have an ID, we will create one for you");
+
+            AdaptiveCard card = new AdaptiveCard()
+            {
+                Body = new List<CardElement>()
+                {
+                    new TextBlock()
+                    {
+                        Text = "Passenger",
+                        Weight = TextWeight.Bolder
+                    },
+
+                    new TextBlock(){Text = "Sarah Hum"},
+                    new TextBlock(){Text = "Jeremy Goldberg"},
+                    new TextBlock(){Text = "Evan Litvak"},
+
+                    new TextBlock()
+                    {
+                        Separation = SeparationStyle.Strong,
+                        Text = "2 Stops",
+                        Weight = TextWeight.Bolder
+                    },
+                    new TextBlock()
+                    {
+                        Text = "Fri, October 10 8:30 AM"
+                    },
+
+                     // First Column
+                    new ColumnSet()
+                    {
+                        Columns = new List<Column>()
+                        {
+                            new Column()
+                            {
+                                Size = ColumnSize.Auto,
+                                Items = new List<CardElement>()
+                                {
+                                    new TextBlock{ Text = "San Francisco"},
+                                    new TextBlock
+                                    {
+                                        Text = "SFO",
+                                        Weight = TextWeight.Bolder,
+                                        Color = TextColor.Accent,
+                                        Size = TextSize.ExtraLarge,
+                                        HorizontalAlignment = HorizontalAlignment.Left
+
+                                    }
+                                }
+                            },
+                            new Column()
+                            {
+                                Size = ColumnSize.Auto,
+                                Items = new List<CardElement>()
+                                {
+                                    new Image
+                                    {
+                                        Url = "http://messagecardplayground.azurewebsites.net/assets/airplane.png",
+                                        Size = ImageSize.Small,
+                                        Style = ImageStyle.Person
+                                    }
+                                }
+                            },
+                            new Column()
+                            {
+                                Size = ColumnSize.Auto,
+                                Items = new List<CardElement>()
+                                {
+                                    new TextBlock{ Text = "Amsterdam"},
+                                    new TextBlock
+                                    {
+                                        Text = "AMS",
+                                        Weight = TextWeight.Bolder,
+                                        Color = TextColor.Accent,
+                                        Size = TextSize.ExtraLarge,
+                                        HorizontalAlignment = HorizontalAlignment.Right
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    new TextBlock()
+                    {
+                        Separation = SeparationStyle.Strong,
+                        Text = "Non-Stop",
+                        Weight = TextWeight.Bolder
+                    },
+                    new TextBlock()
+                    {
+                        Text = "Fri, October 18 9:50 PM",
+                        Weight = TextWeight.Bolder
+                    },
+
+                    new ColumnSet()
+                    {
+                        Columns = new List<Column>()
+                        {
+                            new Column()
+                            {
+                                Size = ColumnSize.Auto,
+                                Items = new List<CardElement>()
+                                {
+                                    new TextBlock{ Text = "Amsterdam"},
+                                    new TextBlock
+                                    {
+                                        Text = "AMS",
+                                        Weight = TextWeight.Bolder,
+                                        Color = TextColor.Accent,
+                                        Size = TextSize.ExtraLarge,
+                                        HorizontalAlignment = HorizontalAlignment.Left
+
+                                    }
+                                }
+                            },
+                            new Column()
+                            {
+                                Size = ColumnSize.Auto,
+                                Items = new List<CardElement>()
+                                {
+                                    new Image
+                                    {
+                                        Url = "http://messagecardplayground.azurewebsites.net/assets/airplane.png",
+                                        Size = ImageSize.Small,
+                                        Style = ImageStyle.Person
+                                    }
+                                }
+                            },
+                            new Column()
+                            {
+                                Size = ColumnSize.Auto,
+                                Items = new List<CardElement>()
+                                {
+                                    new TextBlock{ Text = "San Francisco"},
+                                    new TextBlock
+                                    {
+                                        Text = "SFO",
+                                        Weight = TextWeight.Bolder,
+                                        Color = TextColor.Accent,
+                                        Size = TextSize.ExtraLarge,
+                                        HorizontalAlignment = HorizontalAlignment.Right
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    new ColumnSet()
+                    {
+                        Separation = SeparationStyle.Strong,
+
+                        Columns = new List<Column>()
+                        {
+
+                            new Column()
+                            {
+                                Size = ColumnSize.Auto,
+                                Items = new List<CardElement>()
+                                {
+                                    new TextBlock
+                                    {
+                                        Text = "Total",
+                                        Weight = TextWeight.Bolder
+                                    },
+                                }
+                            },
+
+                            new Column()
+                            {
+                                Size = ColumnSize.Stretch,
+                                Items = new List<CardElement>()
+                                {
+                                    new TextBlock{ Text = "$4,032.54"},
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            ;
+
+            Attachment attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card
+            };
+
+            var reply = context.MakeMessage();
+            reply.Attachments.Add(attachment);
+
+            await context.PostAsync(reply, CancellationToken.None);
         }
         //Assign customer to our database
         private async Task initial(IDialogContext context, IAwaitable<string> result)
